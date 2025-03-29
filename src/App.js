@@ -7,19 +7,23 @@ import './styles/App.css';
 function App() {
   const [selectedLesson, setSelectedLesson] = useState(null);
   const [quizComplete, setQuizComplete] = useState(false);
+  const [score, setScore] = useState(null);
 
   const handleLessonSelect = (lesson) => {
     setSelectedLesson(lesson);
     setQuizComplete(false);
+    setScore(null);
   };
 
-  const handleQuizComplete = () => {
+  const handleQuizComplete = (finalScore) => {
     setQuizComplete(true);
+    setScore(finalScore);
   };
 
   const handleRestart = () => {
     setSelectedLesson(null);
     setQuizComplete(false);
+    setScore(null);
   };
 
   return (
@@ -42,6 +46,8 @@ function App() {
                     lesson={selectedLesson}
                     onComplete={handleQuizComplete}
                     onRestart={handleRestart}
+                    isComplete={quizComplete}
+                    score={score}
                   />
                 )}
               </div>

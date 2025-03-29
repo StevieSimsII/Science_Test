@@ -1,12 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-function Quiz({ lesson, onComplete, onRestart }) {
+function Quiz({ lesson, onComplete, onRestart, isComplete, score }) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState({});
   const [showResults, setShowResults] = useState(false);
 
   const currentQuestion = lesson.questions[currentQuestionIndex];
   const totalQuestions = lesson.questions.length;
+
+  useEffect(() => {
+    if (isComplete && score !== null) {
+      setShowResults(true);
+    }
+  }, [isComplete, score]);
 
   const handleAnswer = (selectedAnswer) => {
     setAnswers({
@@ -20,7 +26,8 @@ function Quiz({ lesson, onComplete, onRestart }) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
       setShowResults(true);
-      onComplete();
+      const finalScore = calculateScore();
+      onComplete(finalScore);
     }
   };
 
@@ -45,13 +52,49 @@ function Quiz({ lesson, onComplete, onRestart }) {
       <div className="space-y-6">
         <h2 className="text-2xl font-bold text-center">Quiz Results</h2>
         <div className="text-center">
-          <p className="text-4xl font-bold text-blue-600">{calculateScore()}%</p>
+          <p className="text-4xl font-bold text-blue-600">{score || calculateScore()}%</p>
           <p className="text-gray-600 mt-2">
             You got {Object.values(answers).filter(
               (answer, index) => answer === lesson.questions[index].correctAnswer
             ).length}{' '}
             out of {totalQuestions} questions correct
           </p>
+        </div>
+        <div className="space-y-4 mt-8">
+          <h3 className="text-xl font-semibold">Question Review</h3>
+          {lesson.questions.map((question, index) => (
+            <div 
+              key={question.id} 
+              className={`p-4 rounded-lg ${
+                answers[question.id] === question.correctAnswer 
+                  ? 'bg-green-50 border border-green-200' 
+                  : 'bg-red-50 border border-red-200'
+              }`}
+            >
+              <p className="font-medium">{index + 1}. {question.question}</p>
+              <div className="mt-2">
+                {question.type === 'multiple_choice' ? (
+                  <p>
+                    <span className="font-medium">Correct answer: </span>
+                    {question.options[question.correctAnswer]}
+                  </p>
+                ) : (
+                  <p>
+                    <span className="font-medium">Correct answer: </span>
+                    {question.correctAnswer ? 'True' : 'False'}
+                  </p>
+                )}
+                {answers[question.id] !== undefined && answers[question.id] !== question.correctAnswer && (
+                  <p className="text-red-600 mt-1">
+                    <span className="font-medium">Your answer: </span>
+                    {question.type === 'multiple_choice' 
+                      ? question.options[answers[question.id]]
+                      : answers[question.id] ? 'True' : 'False'}
+                  </p>
+                )}
+              </div>
+            </div>
+          ))}
         </div>
         <button
           onClick={onRestart}
