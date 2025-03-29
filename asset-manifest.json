@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/Science_Test/static/css/main.fd2183c1.css",
-    "main.js": "/Science_Test/static/js/main.5056f5ca.js",
+    "main.css": "/Science_Test/static/css/main.3c724454.css",
+    "main.js": "/Science_Test/static/js/main.cb804fdd.js",
     "index.html": "/Science_Test/index.html",
-    "main.fd2183c1.css.map": "/Science_Test/static/css/main.fd2183c1.css.map",
-    "main.5056f5ca.js.map": "/Science_Test/static/js/main.5056f5ca.js.map"
+    "main.3c724454.css.map": "/Science_Test/static/css/main.3c724454.css.map",
+    "main.cb804fdd.js.map": "/Science_Test/static/js/main.cb804fdd.js.map"
   },
   "entrypoints": [
-    "static/css/main.fd2183c1.css",
-    "static/js/main.5056f5ca.js"
+    "static/css/main.3c724454.css",
+    "static/js/main.cb804fdd.js"
   ]
 }
